@@ -1,10 +1,10 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
 import 'package:flutter/material.dart';
+import 'package:logintemplate1/models/models.dart';
 
 class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+  final Model userData;
+
+  const Homescreen({super.key, required this.userData});
 
   @override
   State<Homescreen> createState() => _HomescreenState();
@@ -13,6 +13,10 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: Text(widget.userData.message!.fullName!),
+      ),
+    );
   }
 }

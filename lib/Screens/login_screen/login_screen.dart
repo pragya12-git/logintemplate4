@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:logintemplate1/Repositories/login_repository.dart';
 import 'package:logintemplate1/Screens/home_screen/home_screens.dart';
+import 'package:logintemplate1/models/models.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,7 +11,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController Usectrl = TextEditingController();
+  TextEditingController passctrl = TextEditingController();
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  String username = "Manjila";
+  String password = "1234";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                               return "Username must be required";
                             }
                           },
+                          controller: Usectrl,
                         ),
                       ),
                       Padding(
@@ -53,17 +61,30 @@ class _LoginPageState extends State<LoginPage> {
                               return "password must be required";
                             }
                           },
+                          controller: passctrl,
                         ),
                       ),
                       SizedBox(
                         height: 30,
                       ),
                       ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (formkey.currentState!.validate()) {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: ((context) => Homescreen())));
+                              LoginRepository loginRepository =
+                                  LoginRepository();
+
+                              print("123");
+                              Model userData =
+                                  await loginRepository.loginRequest(
+                                      username: Usectrl.text,
+                                      password: passctrl.text);
+                              // TODO 3. Call the LoginRepository
+
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: ((context) => Homescreen(
+                                            userData: userData,
+                                          ))));
                             }
                           },
                           child: Text("Login")),
